@@ -1,1 +1,1 @@
-# nooice
+# Basic Electron-React-Redux Application
