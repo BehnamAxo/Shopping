@@ -94,18 +94,18 @@ body {
   width: 100%;
 }
 
-.task {
+.item {
   background: #f4f4f431;
-  margin: 5px;
+  margin: 7px;
   padding: 10px 20px;
   cursor: pointer;
 }
 
-.task.reminder {
+.item.reminder {
   border-left: 5px solid green;
 }
 
-.task h3 {
+.item h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,7 +116,7 @@ body {
 }
 
 .form-control {
-  margin: 20px 0;
+  margin: 30px 0;
 }
 
 .form-control label {
@@ -124,7 +124,7 @@ body {
 }
 
 .form-control input {
-  width: 100%;
+  width: 97%;
   height: 40px;
   margin: 5px;
   padding: 3px 7px;
@@ -138,11 +138,11 @@ body {
 }
 
 .form-control-check label {
-  flex: 1;
+  flex: 2;
 }
 
 .form-control-check input {
-  flex: 2;
+  flex: 1;
   height: 20px;
 }
 
