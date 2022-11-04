@@ -10,5 +10,4 @@ const Items = ({ items, onDelete, onToggle }) => (
     </div>
 );
 
-
 export default Items;

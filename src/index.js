@@ -5,8 +5,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
+import { fetchItems } from './redux/actions';
 
 
+store.dispatch(fetchItems());
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
