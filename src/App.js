@@ -6,18 +6,19 @@ import Items from './components/Items';
 
 
 const App = () => {
+  const baseURL = 'http://localhost:5000/items/';
   const [showAddItem, setShowAddItem] = useState(false);
   const [items, setItems] = useState([]);
 
   const fetchItems = async () => {
-    const res = await fetch('http://localhost:5000/items');
+    const res = await fetch(baseURL);
     const data = await res.json();
 
     return data;
   };
 
   const fetchItem = async (id) => {
-    const res = await fetch(`http://localhost:5000/items/${id}`);
+    const res = await fetch(`${baseURL}${id}`);
     const data = await res.json();
 
     return data;
@@ -33,7 +34,7 @@ const App = () => {
   }, []);
 
   const addItem = async (item) => {
-    const res = await fetch('http://localhost:5000/items', {
+    const res = await fetch(baseURL, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -48,7 +49,7 @@ const App = () => {
 
   const deleteItem = async (id) => {
     await fetch(
-      `http://localhost:5000/items/${id}`, {
+      `${baseURL}${id}`, {
         method: 'DELETE'
       }
     );
@@ -59,7 +60,7 @@ const App = () => {
     const taskToToggle = await fetchItem(id)
     const updatedItem = { ...taskToToggle, reminder: !taskToToggle.reminder }
 
-    const res = await fetch(`http://localhost:5000/items/${id}`, {
+    const res = await fetch(`${baseURL}${id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -79,7 +80,7 @@ const App = () => {
   return (
     <div className='container'>
       <Header
-        title='List'
+        title='To-Do List'
         onAdd={() => setShowAddItem(!showAddItem)}
         showAdd={showAddItem}
       />
