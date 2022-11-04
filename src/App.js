@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { FaTasks } from 'react-icons/fa';
 import AddItem from './components/AddItem';
 import Header from './components/Header';
 import Items from './components/Items';
@@ -6,45 +7,79 @@ import Items from './components/Items';
 
 const App = () => {
   const [showAddItem, setShowAddItem] = useState(false);
-  const [items, setItems] = useState([
-      {
-          id: 1,
-          text: "Doctors Appointment",
-          day: 'Feb 5th at 2:30 p.m.',
-          reminder: true
-      },
-      {
-          id: 2,
-          text: "Meeting at School",
-          day: 'Feb 6th at 4:30 p.m.',
-          reminder: true
-      }
-  ]);
+  const [items, setItems] = useState([]);
 
-  const addItem = (item) => {
-    const id = Math.floor(Math.random() * 10000);
-    const newItem = {
-      id,
-      ...item
-    };
+  const fetchItems = async () => {
+    const res = await fetch('http://localhost:5000/items');
+    const data = await res.json();
 
-    setItems([...items, newItem]);
+    return data;
   };
 
-  const deleteItem = (id) => {
+  const fetchItem = async (id) => {
+    const res = await fetch(`http://localhost:5000/items/${id}`);
+    const data = await res.json();
+
+    return data;
+  };
+
+  useEffect(() => {
+    const getItems = async () => {
+      const itemsFromServer = await fetchItems();
+      setItems(itemsFromServer);
+    };
+
+    getItems();
+  }, []);
+
+  const addItem = async (item) => {
+    const res = await fetch('http://localhost:5000/items', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(item)
+    });
+
+    const data = await res.json();
+
+    setItems([...items, data]);
+  }
+
+  const deleteItem = async (id) => {
+    await fetch(
+      `http://localhost:5000/items/${id}`, {
+        method: 'DELETE'
+      }
+    );
     setItems(items.filter((item) => item.id !== id ));
   };
 
-  const toggleStyle = (id) => {
-    setItems(items.map((item) => 
-      item.id === id ? {...item, reminder: !item.reminder} : item 
-    ));
+  const toggleStyle = async (id) => {
+    const taskToToggle = await fetchItem(id)
+    const updatedItem = { ...taskToToggle, reminder: !taskToToggle.reminder }
+
+    const res = await fetch(`http://localhost:5000/items/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updatedItem)
+    })
+
+    const data = await res.json()
+
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, reminder: data.reminder } : item
+      )
+    )
   };
 
   return (
     <div className='container'>
       <Header
-        title='Shopping List'
+        title='List'
         onAdd={() => setShowAddItem(!showAddItem)}
         showAdd={showAddItem}
       />
