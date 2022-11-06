@@ -66,10 +66,8 @@ const AddItem = ({ onSubmitForm }) => {
     )
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      onSubmitForm: (item) => dispatch(addItem(item))
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmitForm: (item) => dispatch(addItem(item))
+});
 
 export default connect(null, mapDispatchToProps)(AddItem);

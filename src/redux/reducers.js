@@ -17,7 +17,6 @@ const intialState = {
 const reducer = (state = intialState, action) => {
     switch (action.type) {
         case ADD_ITEM: {
-             debugger;
             return {
                 ...state,
                 items: [...state.items, action.payload]
@@ -46,7 +45,6 @@ const reducer = (state = intialState, action) => {
         }
 
         case TOGGLE_REMINDER: {
-            console.log('TOGGLE_REMINDER');
             return {
                 ...state,
                 items: state.items.map((item) => item.id === action.payload.id ? {...item, reminder: action.payload.reminder} : item)

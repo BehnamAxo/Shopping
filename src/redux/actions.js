@@ -34,80 +34,69 @@ const showItemFormSuccess = () => ({
 });
 
 
-export const addItem = (item) => {
-    return async (dispatch) => {
-        debugger;
-        try {
-            const res = await fetch(baseURL, {
-                method: 'POST',
-                headers: {
-                'Content-type': 'application/json',
-                },
-                body: JSON.stringify(item)
-            });
+export const addItem = (item) => async (dispatch) => {
+    try {
+        const res = await fetch(baseURL, {
+            method: 'POST',
+            headers: {
+            'Content-type': 'application/json',
+            },
+            body: JSON.stringify(item)
+        });
 
-            const data = await res.json();
-            dispatch(addItemSuccess(data));
-        } catch (e) {
-            console.log(`Add item error: ${e}`);
-        }
+        const data = await res.json();
+        dispatch(addItemSuccess(data));
+    } catch (e) {
+        console.log(`Add item error: ${e}`);
     }
 }
 
-export const fetchItems = () => {
-    return async (dispatch) => {
-        try {
-            const res = await fetch(baseURL);
-            const data = await res.json();
-            dispatch(fetchItemsSuccess(data));
-        }
-        catch(e){
-            console.log(`Fetch items error: ${e}`);
-        }
+export const fetchItems = () => async (dispatch) => {
+    try {
+        const res = await fetch(baseURL);
+        const data = await res.json();
+        dispatch(fetchItemsSuccess(data));
+    }
+    catch(e){
+        console.log(`Fetch items error: ${e}`);
     }
 }
 
-export const deleteItem = (id) => {
-    return async (dispatch) => {
-        try {
-            await fetch(
-                `${baseURL}${id}`, {
-                    method: 'DELETE'
-                }
-            );
-            dispatch(deleteItemSucess(id));
-        }
-        catch(e){
-            console.log(`Delete item error: ${e}`);
-        }
+export const deleteItem = (id) => async (dispatch) => {
+    try {
+        await fetch(
+            `${baseURL}${id}`, {
+                method: 'DELETE'
+            }
+        );
+        dispatch(deleteItemSucess(id));
+    }
+    catch(e){
+        console.log(`Delete item error: ${e}`);
     }
 }
 
-export const showItemForm = () => {
-    return (dispatch) => {
-        dispatch(showItemFormSuccess());
-    }
+export const showItemForm = () => (dispatch) => {
+    dispatch(showItemFormSuccess());
 }
 
-export const toggleReminder = (id) => {
-    return async (dispatch) => {
-        try {
-            const taskToToggle = await fetchItem(id)
-            const updatedItem = { ...taskToToggle, reminder: !taskToToggle.reminder }
-        
-            const res = await fetch(`${baseURL}${id}`, {
-                method: 'PUT',
-                headers: {
-                'Content-type': 'application/json',
-                },
-                body: JSON.stringify(updatedItem)
-            })
-        
-            const data = await res.json();
-            dispatch(toggleReminderSuccess(data));
-        }
-        catch(e){
-            console.log(`Toggle reminder error: ${e}`);
-        }
+export const toggleReminder = (id) => async (dispatch) => {
+    try {
+        const taskToToggle = await fetchItem(id)
+        const updatedItem = { ...taskToToggle, reminder: !taskToToggle.reminder }
+    
+        const res = await fetch(`${baseURL}${id}`, {
+            method: 'PUT',
+            headers: {
+            'Content-type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem)
+        })
+    
+        const data = await res.json();
+        dispatch(toggleReminderSuccess(data));
+    }
+    catch(e){
+        console.log(`Toggle reminder error: ${e}`);
     }
 }
