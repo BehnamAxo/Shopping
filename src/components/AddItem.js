@@ -70,6 +70,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
       onSubmitForm: (item) => dispatch(addItem(item))
     };
-  };
+};
 
 export default connect(null, mapDispatchToProps)(AddItem);

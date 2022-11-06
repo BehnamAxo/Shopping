@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
-import { deleteItem } from '../redux/actions';
+import { deleteItem, toggleReminder } from '../redux/actions';
 
 
-const Item = ({ item, onDelete }) => {
-  console.log(`onDelete ==> ${onDelete}`);
+const Item = ({ item, onDelete, toggleReminder }) => {
   return (
-    <div className={`item ${item.reminder ? 'reminder' : ''}`} >
+    <div 
+      className={`item ${item.reminder ? 'reminder' : ''}`} 
+      onDoubleClick={() => toggleReminder(item.id)} 
+    >
         <h3>
             {item.text} 
             <FaTimes 
@@ -19,11 +21,10 @@ const Item = ({ item, onDelete }) => {
   )
 };
 
-
-// The dispatch function is available as an argument to mapDispatchToProps
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDelete: (id) => dispatch(deleteItem(id))
+    onDelete: (id) => dispatch(deleteItem(id)),
+    toggleReminder: (id) => dispatch(toggleReminder(id))
   };
 };
 

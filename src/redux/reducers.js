@@ -1,13 +1,20 @@
 import { combineReducers  } from 'redux';
-import { ADD_ITEM , DELETE_ITEM, FETCH_ITEM, FETCH_ITEMS } from './types';
+import { 
+    ADD_ITEM,
+    DELETE_ITEM,
+    FETCH_ITEMS,
+    SHOW_ITEM_FORM,
+    TOGGLE_REMINDER 
+} from './types';
 
 
 const intialState = {
     items: [],
-    item: {}
+    item: {},
+    showForm: false
 };
 
-const itemReducer = (state = intialState, action) => {
+const reducer = (state = intialState, action) => {
     switch (action.type) {
         case ADD_ITEM: {
              debugger;
@@ -31,9 +38,19 @@ const itemReducer = (state = intialState, action) => {
             };
         }
 
-        case FETCH_ITEM: {
-            console.log('FETCH_ITEM');
-            return state;
+        case SHOW_ITEM_FORM: {
+            return {
+                ...state,
+                showForm: !state.showForm
+            }
+        }
+
+        case TOGGLE_REMINDER: {
+            console.log('TOGGLE_REMINDER');
+            return {
+                ...state,
+                items: state.items.map((item) => item.id === action.payload.id ? {...item, reminder: action.payload.reminder} : item)
+            };
         }
 
         default: 
@@ -42,7 +59,7 @@ const itemReducer = (state = intialState, action) => {
 };
 
 const rootReducer = combineReducers({
-    posts: itemReducer
+    currentState: reducer
 });
 
 export default rootReducer;

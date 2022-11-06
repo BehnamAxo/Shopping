@@ -1,14 +1,16 @@
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from './Button';
+import { showItemForm } from '../redux/actions';
 
-const Header = ({ title, onAdd, showAdd }) => {
+const Header = ({ title, showForm, onClick }) => {
   return (
     <header className='header'>
       <h2>{title}</h2>
       <Button 
-        color={showAdd ? 'red' : 'green'}
-        text={showAdd ? 'Hide' : 'Show'}
-        onClick={onAdd}
+        color={showForm ? 'red' : 'green'}
+        text={showForm ? 'Hide' : 'Show'}
+        onClick={onClick}
       />
     </header>
   )
@@ -22,4 +24,16 @@ Header.prototypes = {
   title: PropTypes.string
 };
 
-export default Header;
+const mapStateToProps = ({ currentState }) => {
+  return {
+    showForm: currentState.showForm
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClick: () => dispatch(showItemForm())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

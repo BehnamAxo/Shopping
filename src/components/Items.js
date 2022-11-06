@@ -1,6 +1,6 @@
 import Item from "./Item";
 
-const Items = ({ items, onToggle }) => (
+const Items = ({ items }) => (
     <div>
         {
             items.map((item) => (

@@ -1,12 +1,23 @@
-import { ADD_ITEM, DELETE_ITEM, FETCH_ITEM, FETCH_ITEMS } from './types';
+import { 
+    ADD_ITEM,
+    DELETE_ITEM,
+    FETCH_ITEMS,
+    SHOW_ITEM_FORM,
+    TOGGLE_REMINDER
+} from './types';
 
 
 const baseURL = 'http://localhost:5000/items/';
-const addItemSucess = (id) => ({
+const fetchItem = async (id) => {
+    const res = await fetch(`${baseURL}${id}`);
+    const data = await res.json();
+    return data;
+};
+const addItemSuccess = (id) => ({
     type: ADD_ITEM,
     payload: id
 });
-const fetchItemsSuccess = items => ({
+const fetchItemsSuccess = (items) => ({
     type: FETCH_ITEMS,
     payload: items
 });
@@ -14,9 +25,12 @@ const deleteItemSucess = (id) => ({
     type: DELETE_ITEM,
     payload: id
 });
-const fetchItemSuccess = (id) => ({
-    type: FETCH_ITEM,
-    payload: id
+const toggleReminderSuccess = (item) => ({
+    type: TOGGLE_REMINDER,
+    payload: item
+});
+const showItemFormSuccess = () => ({
+    type: SHOW_ITEM_FORM
 });
 
 
@@ -33,7 +47,7 @@ export const addItem = (item) => {
             });
 
             const data = await res.json();
-            dispatch(addItemSucess(data));
+            dispatch(addItemSuccess(data));
         } catch (e) {
             console.log(`Add item error: ${e}`);
         }
@@ -65,6 +79,35 @@ export const deleteItem = (id) => {
         }
         catch(e){
             console.log(`Delete item error: ${e}`);
+        }
+    }
+}
+
+export const showItemForm = () => {
+    return (dispatch) => {
+        dispatch(showItemFormSuccess());
+    }
+}
+
+export const toggleReminder = (id) => {
+    return async (dispatch) => {
+        try {
+            const taskToToggle = await fetchItem(id)
+            const updatedItem = { ...taskToToggle, reminder: !taskToToggle.reminder }
+        
+            const res = await fetch(`${baseURL}${id}`, {
+                method: 'PUT',
+                headers: {
+                'Content-type': 'application/json',
+                },
+                body: JSON.stringify(updatedItem)
+            })
+        
+            const data = await res.json();
+            dispatch(toggleReminderSuccess(data));
+        }
+        catch(e){
+            console.log(`Toggle reminder error: ${e}`);
         }
     }
 }
