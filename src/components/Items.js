@@ -1,10 +1,10 @@
 import Item from "./Item";
 
-const Items = ({ items, onDelete, onToggle }) => (
+const Items = ({ items, onToggle }) => (
     <div>
         {
             items.map((item) => (
-                <Item key={item.id} item={item} onDelete={onDelete} onToggle={onToggle} />
+                <Item key={item.id} item={item} />
             ))
         }
     </div>

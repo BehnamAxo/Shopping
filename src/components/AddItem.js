@@ -1,59 +1,75 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { addItem } from '../redux/actions';
 
-const AddItem = ({ onAdd }) => {
-    const [text, setText] = useState('');
-    const [day, setDay] = useState('');
-    const [reminder, setReminder] = useState(false);
+const AddItem = ({ onSubmitForm }) => {
+    const [values, setValues] = useState({
+        text: '',
+        day: '',
+        reminder: false
+    });
+
     const onSubmit = (e) => {
         e.preventDefault();
-
-        if (!text) {
+        if (!values.text) {
             alert('Please add an item!');
             return;
         }
-
-        onAdd({ text, day, reminder });
-        setText('');
-        setDay('');
-        setReminder(false);
+        onSubmitForm(values);
     };
 
+    const handleformChange = (e) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value
+        });
+    } 
+
     return (
-    <form className='add-form' onSubmit={onSubmit}>
-        <div className='form-control'>
-            <label>Item</label>
+        <form className='add-form' onSubmit={onSubmit}>
+            <div className='form-control'>
+                <label>Item</label>
+                <input 
+                    type='text'
+                    name='text'
+                    placeholder='Add Item' 
+                    value={values.text} 
+                    onChange={handleformChange}  
+                />
+            </div>
+            <div className='form-control'>
+                <label>Day & Time</label>
+                <input 
+                    type='text'
+                    name='day'
+                    placeholder='Add Day & Time'
+                    value={values.day} 
+                    onChange={handleformChange}
+                />
+            </div>
+            <div className='form-control form-control-check'>
+                <label>Set Reminder</label>
+                <input 
+                    type='checkbox'
+                    name='reminder'
+                    checked={values.reminder}
+                    value={values.reminder} 
+                    onChange={handleformChange} 
+                />
+            </div>
             <input 
-                type='text' 
-                placeholder='Add Item' 
-                value={text} 
-                onChange={(e) => setText(e.target.value)}
+                className='btn btn-block'
+                type='submit' 
+                value='Save Item' 
             />
-        </div>
-        <div className='form-control'>
-            <label>Day & Time</label>
-            <input 
-                type='text' 
-                placeholder='Add Day & Time'
-                value={day} 
-                onChange={(e) => setDay(e.target.value)}
-            />
-        </div>
-        <div className='form-control form-control-check'>
-            <label>Set Reminder</label>
-            <input 
-                type='checkbox'
-                checked={reminder}
-                value={reminder} 
-                onChange={(e) => setReminder(e.currentTarget.checked)} 
-            />
-        </div>
-        <input 
-            className='btn btn-block'
-            type='submit' 
-            value='Save Item' 
-        />
-    </form>
+        </form>
     )
 };
 
-export default AddItem;
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onSubmitForm: (item) => dispatch(addItem(item))
+    };
+  };
+
+export default connect(null, mapDispatchToProps)(AddItem);

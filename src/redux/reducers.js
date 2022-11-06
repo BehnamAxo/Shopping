@@ -1,5 +1,5 @@
 import { combineReducers  } from 'redux';
-import { FETCH_ITEM, FETCH_ITEMS } from './types';
+import { ADD_ITEM , DELETE_ITEM, FETCH_ITEM, FETCH_ITEMS } from './types';
 
 
 const intialState = {
@@ -9,6 +9,21 @@ const intialState = {
 
 const itemReducer = (state = intialState, action) => {
     switch (action.type) {
+        case ADD_ITEM: {
+             debugger;
+            return {
+                ...state,
+                items: [...state.items, action.payload]
+            }
+        }
+
+        case DELETE_ITEM: {
+            return {
+                ...state,
+                items: state.items.filter((item) => item.id !== action.payload )
+            }
+        }
+
         case FETCH_ITEMS: {
             return {
                 ...state,
