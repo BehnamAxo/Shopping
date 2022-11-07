@@ -1,8 +1,10 @@
 import { 
     ADD_ITEM,
     DELETE_ITEM,
+    HIDE_DELETE_MODAL,
     FETCH_ITEMS,
     SHOW_ITEM_FORM,
+    SHOW_DELETE_MODAL,
     TOGGLE_REMINDER
 } from './types';
 
@@ -32,6 +34,13 @@ const toggleReminderSuccess = (item) => ({
 const showItemFormSuccess = () => ({
     type: SHOW_ITEM_FORM
 });
+const showDeleteModalAction = (id) => ({
+    type: SHOW_DELETE_MODAL,
+    payload: id
+});
+const hideDeleteModalAction = () => ({
+    type: HIDE_DELETE_MODAL
+});
 
 
 export const addItem = (item) => async (dispatch) => {
@@ -49,6 +58,10 @@ export const addItem = (item) => async (dispatch) => {
     } catch (e) {
         console.log(`Add item error: ${e}`);
     }
+}
+
+export const hideDeleteModal = () => (dispatch) => {
+    dispatch(hideDeleteModalAction());
 }
 
 export const fetchItems = () => async (dispatch) => {
@@ -78,6 +91,10 @@ export const deleteItem = (id) => async (dispatch) => {
 
 export const showItemForm = () => (dispatch) => {
     dispatch(showItemFormSuccess());
+}
+
+export const showDeleteModal = (id) => (dispatch) => {
+    dispatch(showDeleteModalAction(id));
 }
 
 export const toggleReminder = (id) => async (dispatch) => {

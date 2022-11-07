@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '../redux/actions';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddItem = ({ onSubmitForm }) => {
     const [values, setValues] = useState({
         text: '',
         day: '',
-        reminder: false
+        date: null,
+        reminder: false,
     });
 
     const onSubmit = (e) => {
@@ -16,6 +19,12 @@ const AddItem = ({ onSubmitForm }) => {
             return;
         }
         onSubmitForm(values);
+        setValues({
+            text: '',
+            day: '',
+            date: null,
+            reminder: false,
+        });
     };
 
     const handleformChange = (e) => {
@@ -23,7 +32,7 @@ const AddItem = ({ onSubmitForm }) => {
             ...values,
             [e.target.name]: e.target.value
         });
-    } 
+    };
 
     return (
         <form className='add-form' onSubmit={onSubmit}>
@@ -38,7 +47,18 @@ const AddItem = ({ onSubmitForm }) => {
                 />
             </div>
             <div className='form-control'>
-                <label>Day & Time</label>
+                <label>Date</label>
+                <DatePicker
+                    name='date'
+                    selected={values.date === null ? new Date() : values.date }
+                    onChange={(date) => setValues({
+                        ...values,
+                        date
+                    })}
+                />
+            </div>
+            <div className='form-control'>
+                <label>Time</label>
                 <input 
                     type='text'
                     name='day'

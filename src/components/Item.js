@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
-import { deleteItem, toggleReminder } from '../redux/actions';
+import { deleteItem, toggleReminder, showDeleteModal } from '../redux/actions';
 
 
-const Item = ({ item, onDelete, toggleReminder }) => (
+const Item = ({ item, onDelete, toggleReminder, showDeleteModal }) => (
   <div 
     className={`item ${item.reminder ? 'reminder' : ''}`} 
     onDoubleClick={() => toggleReminder(item.id)} 
@@ -12,7 +12,7 @@ const Item = ({ item, onDelete, toggleReminder }) => (
           {item.text} 
           <FaTimes 
               style={{ color: 'red', cursor: 'pointer'}}
-              onClick={() => onDelete(item.id)}
+              onClick={() => showDeleteModal(item.id)}
           />
       </h3>
       <p>{item.day}</p>
@@ -21,6 +21,7 @@ const Item = ({ item, onDelete, toggleReminder }) => (
 
 const mapDispatchToProps = (dispatch) => ({
   onDelete: (id) => dispatch(deleteItem(id)),
+  showDeleteModal: (id) => dispatch(showDeleteModal(id)),
   toggleReminder: (id) => dispatch(toggleReminder(id))
 });
 

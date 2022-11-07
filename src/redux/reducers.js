@@ -2,13 +2,19 @@ import { combineReducers  } from 'redux';
 import { 
     ADD_ITEM,
     DELETE_ITEM,
+    HIDE_DELETE_MODAL,
     FETCH_ITEMS,
     SHOW_ITEM_FORM,
+    SHOW_DELETE_MODAL,
     TOGGLE_REMINDER 
 } from './types';
 
 
 const intialState = {
+    deleteModal: {
+        id: null,
+        showModal: false
+    },
     items: [],
     item: {},
     showForm: false
@@ -19,6 +25,7 @@ const reducer = (state = intialState, action) => {
         case ADD_ITEM: {
             return {
                 ...state,
+                showForm: !state.showForm,
                 items: [...state.items, action.payload]
             }
         }
@@ -26,7 +33,21 @@ const reducer = (state = intialState, action) => {
         case DELETE_ITEM: {
             return {
                 ...state,
+                deleteModal: {
+                    id: null,
+                    showModal: false
+                },
                 items: state.items.filter((item) => item.id !== action.payload )
+            }
+        }
+
+        case HIDE_DELETE_MODAL: {
+            return {
+                ...state,
+                deleteModal: {
+                    id: null,
+                    showModal: false
+                }
             }
         }
 
@@ -41,6 +62,16 @@ const reducer = (state = intialState, action) => {
             return {
                 ...state,
                 showForm: !state.showForm
+            }
+        }
+
+        case SHOW_DELETE_MODAL: {
+            return {
+                ...state,
+                deleteModal: {
+                    id: action.payload,
+                    showModal: true
+                }
             }
         }
 
