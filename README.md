@@ -1,5 +1,10 @@
 # Basic Electron-React-Redux Application
 
+## Running
+Run the command that corresponds to the build you are interested in
+- `yarn server` runs your local server on http://localhost:5000. To see your database data go to http://localhost:5000/items
+- `yarn start` runs a web version of the app on http://localhost:3000
+- `yarn electron:start` runs an electron app version
 
 ## Concurrently
 Run multiple commands concurrently. Use it to run both the Electron process and the React app in watch mode.
