@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import AddItem from './components/AddItem';
+import Header from './components/Header';
+import Items from './components/Items';
+import Modal from './components/Modal';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+const App = ({ items, showForm, deleteModal }) => (
+  <div className='container'>
+    <Header title='To-Do List' />
+    { showForm && <AddItem /> }
+    { items.length > 0 ? <Items items={items} /> : <h3>Shopping cart empty</h3> }
+    { deleteModal.showModal && <Modal /> }
+  </div>
+);
+
+const mapStateToProps = ({ currentState }) => ({
+  items: currentState.items,
+  showForm: currentState.showForm,
+  deleteModal: currentState.deleteModal
+});
+
+export default connect(mapStateToProps)(App);
