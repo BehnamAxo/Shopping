@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Item from "./Item";
 
@@ -11,8 +12,14 @@ const Items = ({ items }) => {
     )
 };
 
+const itemsSelector = (state) => state.items;
+const itmSelector = createSelector(
+    itemsSelector,
+    (items) => R.sort(R.ascend, items)
+);
+
 const mapStateToProps = ({ currentState }) => ({
-    items: currentState.items
+    items: itmSelector(currentState)
 });
 
 export default connect(mapStateToProps)(Items);
